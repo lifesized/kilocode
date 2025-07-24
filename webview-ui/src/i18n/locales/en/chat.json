@@ -145,10 +145,10 @@
 	"forNextMode": "for next mode",
 	"forPreviousMode": "for previous mode",
 	"apiRequest": {
-		"title": "API Request",
+		"title": "Thinking request",
 		"failed": "API Request Failed",
-		"streaming": "API Request...",
-		"cancelled": "API Request Cancelled",
+		"streaming": "Generating...",
+		"cancelled": "Request Cancelled",
 		"streamingFailed": "API Streaming Failed"
 	},
 	"checkpoint": {

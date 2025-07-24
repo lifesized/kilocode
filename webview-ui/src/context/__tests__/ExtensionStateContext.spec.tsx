@@ -265,6 +265,8 @@ describe("mergeExtensionState", () => {
 			apiConfiguration: { modelMaxThinkingTokens: 456, modelTemperature: 0.3 },
 			experiments: {
 				powerSteering: true,
+				autocomplete: true,
+				uiImprovements: false, // kilocode_change
 				multiFileApplyDiff: true,
 				inlineAssist: false, // kilocode_change
 				preventFocusDisruption: false,
@@ -281,6 +283,8 @@ describe("mergeExtensionState", () => {
 
 		expect(result.experiments).toEqual({
 			powerSteering: true,
+			autocomplete: true,
+			uiImprovements: false, // kilocode_change
 			multiFileApplyDiff: true,
 			inlineAssist: false, // kilocode_change
 			preventFocusDisruption: false,

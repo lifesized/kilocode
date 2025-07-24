@@ -14,6 +14,25 @@ describe("experiments", () => {
 		})
 	})
 
+	// kilocode_change start
+	describe("AUTOCOMPLETE", () => {
+		it("is configured correctly", () => {
+			expect(EXPERIMENT_IDS.AUTOCOMPLETE).toBe("autocomplete")
+			expect(experimentConfigsMap.AUTOCOMPLETE).toMatchObject({
+				enabled: false,
+			})
+		})
+	})
+
+	describe("UI_IMPROVEMENTS", () => {
+		it("is configured correctly", () => {
+			expect(EXPERIMENT_IDS.UI_IMPROVEMENTS).toBe("uiImprovements")
+			expect(experimentConfigsMap.UI_IMPROVEMENTS).toMatchObject({
+				enabled: false,
+			})
+		})
+	})
+	// kilocode_change end
 	describe("MULTI_FILE_APPLY_DIFF", () => {
 		it("is configured correctly", () => {
 			expect(EXPERIMENT_IDS.MULTI_FILE_APPLY_DIFF).toBe("multiFileApplyDiff")
@@ -27,6 +46,8 @@ describe("experiments", () => {
 		it("returns false when POWER_STEERING experiment is not enabled", () => {
 			const experiments: Record<ExperimentId, boolean> = {
 				morphFastApply: false, // kilocode_change
+				autocomplete: false,
+				uiImprovements: false, // kilocode_change
 				powerSteering: false,
 				multiFileApplyDiff: false,
 				inlineAssist: false, // kilocode_change
@@ -38,6 +59,8 @@ describe("experiments", () => {
 		it("returns true when experiment POWER_STEERING is enabled", () => {
 			const experiments: Record<ExperimentId, boolean> = {
 				morphFastApply: false, // kilocode_change
+				autocomplete: true,
+				uiImprovements: false, // kilocode_change
 				powerSteering: true,
 				multiFileApplyDiff: false,
 				inlineAssist: false, // kilocode_change
@@ -49,6 +72,8 @@ describe("experiments", () => {
 		it("returns false when experiment is not present", () => {
 			const experiments: Record<ExperimentId, boolean> = {
 				morphFastApply: false, // kilocode_change
+				autocomplete: false,
+				uiImprovements: false, // kilocode_change
 				powerSteering: false,
 				multiFileApplyDiff: false,
 				inlineAssist: false, // kilocode_change
