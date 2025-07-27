@@ -22,6 +22,7 @@ import { getApiMetrics } from "@roo/getApiMetrics"
 import { AudioType } from "@roo/WebviewMessage"
 import { getAllModes } from "@roo/modes"
 import { ProfileValidator } from "@roo/ProfileValidator"
+import { EXPERIMENT_IDS } from "@roo/experiments"
 
 import { vscode } from "@src/utils/vscode"
 import {
@@ -45,6 +46,8 @@ import TelemetryBanner from "../common/TelemetryBanner" // kilocode_change: deac
 // import VersionIndicator from "../common/VersionIndicator" // kilocode_change: unused
 import { useTaskSearch } from "../history/useTaskSearch"
 import HistoryPreview from "../history/HistoryPreview"
+import { MinimalTasksView } from "../history/MinimalTasksView" // kilocode_change
+import { ExecutionStatusPanel } from "./ExecutionStatusPanel" // kilocode_change
 import Announcement from "./Announcement"
 import BrowserSessionRow from "./BrowserSessionRow"
 import ChatRow from "./ChatRow"
@@ -174,6 +177,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 	const [primaryButtonText, setPrimaryButtonText] = useState<string | undefined>(undefined)
 	const [secondaryButtonText, setSecondaryButtonText] = useState<string | undefined>(undefined)
 	const [didClickCancel, setDidClickCancel] = useState(false)
+	const [isPaused, setIsPaused] = useState(false) // kilocode_change
 	const virtuosoRef = useRef<VirtuosoHandle>(null)
 	const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({})
 	const prevExpandedRowsRef = useRef<Record<number, boolean>>()
@@ -861,6 +865,28 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 	)
 
 	const handleTaskCloseButtonClick = useCallback(() => startNewTask(), [startNewTask])
+
+	// kilocode_change start - execution control handlers
+	const handleToggle = useCallback(() => {
+		if (isPaused) {
+			// Currently paused, so resume
+			setIsPaused(false)
+
+			// Check if we're in a resume_task ask state
+			if (clineAsk === "resume_task") {
+				// Act like the Resume button - send yesButtonClicked response
+				vscode.postMessage({ type: "askResponse", askResponse: "yesButtonClicked" })
+			} else {
+				// Direct resume for tasks not in resume_task state
+				vscode.postMessage({ type: "resumeTask" })
+			}
+		} else {
+			// Currently running, so pause
+			setIsPaused(true)
+			vscode.postMessage({ type: "pauseTask" })
+		}
+	}, [isPaused, clineAsk])
+	// kilocode_change end
 
 	const { info: model } = useSelectedModel(apiConfiguration)
 
@@ -1880,6 +1906,18 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 						todos={latestTodos}
 					/>
 
+					{/* kilocode_change start - execution status panel */}
+					{experiments?.[EXPERIMENT_IDS.EXECUTION_VISIBILITY] && (
+						<ExecutionStatusPanel
+							isStreaming={isStreaming}
+							isPaused={isPaused}
+							messages={messages}
+							onToggle={handleToggle}
+							hasTask={!!currentTaskItem && messages.length > 0}
+						/>
+					)}
+					{/* kilocode_change end */}
+
 					{hasSystemPromptOverride && (
 						<div className="px-3">
 							<SystemPromptWarning />
@@ -1943,7 +1981,14 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 								{cloudIsAuthenticated || taskHistory.length < 4 ? <RooTips /> : <RooCloudCTA />}
 							</div> kilocode_change: do not show */}
 							{/* Show the task history preview if expanded and tasks exist */}
-							{taskHistory.length > 0 && isExpanded && <HistoryPreview />}
+							{taskHistory.length > 0 &&
+								isExpanded &&
+								(experiments?.[EXPERIMENT_IDS.MINIMAL_TASKS] ? (
+									<MinimalTasksView items={taskHistory} />
+								) : (
+									<HistoryPreview />
+								))}{" "}
+							{/* kilocode_change: conditional rendering based on minimal tasks experiment */}
 							{/* kilocode_change start: KilocodeNotifications + Layout fixes */}
 						</div>
 						{/* kilocode_change end */}

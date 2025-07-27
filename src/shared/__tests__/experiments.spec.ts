@@ -32,6 +32,33 @@ describe("experiments", () => {
 			})
 		})
 	})
+
+	describe("UI_ANIMATION_DOTS", () => {
+		it("is configured correctly", () => {
+			expect(EXPERIMENT_IDS.UI_ANIMATION_DOTS).toBe("uiAnimationDots")
+			expect(experimentConfigsMap.UI_ANIMATION_DOTS).toMatchObject({
+				enabled: false,
+			})
+		})
+	})
+
+	describe("UI_DYNAMIC_WORDS", () => {
+		it("is configured correctly", () => {
+			expect(EXPERIMENT_IDS.UI_DYNAMIC_WORDS).toBe("uiDynamicWords")
+			expect(experimentConfigsMap.UI_DYNAMIC_WORDS).toMatchObject({
+				enabled: false,
+			})
+		})
+	})
+
+	describe("MINIMAL_TASKS", () => {
+		it("is configured correctly", () => {
+			expect(EXPERIMENT_IDS.MINIMAL_TASKS).toBe("minimalTasks")
+			expect(experimentConfigsMap.MINIMAL_TASKS).toMatchObject({
+				enabled: false,
+			})
+		})
+	})
 	// kilocode_change end
 	describe("MULTI_FILE_APPLY_DIFF", () => {
 		it("is configured correctly", () => {
@@ -48,6 +75,10 @@ describe("experiments", () => {
 				morphFastApply: false, // kilocode_change
 				autocomplete: false,
 				uiImprovements: false, // kilocode_change
+				uiAnimationDots: false, // kilocode_change
+				uiDynamicWords: false, // kilocode_change
+				executionVisibility: false, // kilocode_change
+				minimalTasks: false, // kilocode_change
 				powerSteering: false,
 				multiFileApplyDiff: false,
 				inlineAssist: false, // kilocode_change
@@ -61,6 +92,10 @@ describe("experiments", () => {
 				morphFastApply: false, // kilocode_change
 				autocomplete: true,
 				uiImprovements: false, // kilocode_change
+				uiAnimationDots: false, // kilocode_change
+				uiDynamicWords: false, // kilocode_change
+				executionVisibility: false, // kilocode_change
+				minimalTasks: false, // kilocode_change
 				powerSteering: true,
 				multiFileApplyDiff: false,
 				inlineAssist: false, // kilocode_change
@@ -74,6 +109,10 @@ describe("experiments", () => {
 				morphFastApply: false, // kilocode_change
 				autocomplete: false,
 				uiImprovements: false, // kilocode_change
+				uiAnimationDots: false, // kilocode_change
+				uiDynamicWords: false, // kilocode_change
+				executionVisibility: false, // kilocode_change
+				minimalTasks: false, // kilocode_change
 				powerSteering: false,
 				multiFileApplyDiff: false,
 				inlineAssist: false, // kilocode_change
