@@ -108,9 +108,15 @@ export const ExperimentalSettings = ({
 										key={config[0]}
 										experimentKey={config[0]}
 										enabled={uiImprovementsEnabled}
-										onChange={(enabled) =>
+										onChange={(enabled) => {
 											setExperimentEnabled(EXPERIMENT_IDS.UI_IMPROVEMENTS, enabled)
-										}
+											if (!enabled) {
+												setExperimentEnabled(EXPERIMENT_IDS.UI_ANIMATION_DOTS, false)
+												setExperimentEnabled(EXPERIMENT_IDS.UI_DYNAMIC_WORDS, false)
+												setExperimentEnabled(EXPERIMENT_IDS.EXECUTION_VISIBILITY, false)
+												setExperimentEnabled(EXPERIMENT_IDS.MINIMAL_TASKS, false)
+											}
+										}}
 									/>
 									{uiImprovementsEnabled && (
 										<div className="ml-6 mt-2 space-y-2 border-l-2 border-vscode-sideBar-background pl-4">

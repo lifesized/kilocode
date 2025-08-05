@@ -25,7 +25,7 @@ interface ExperimentConfig {
 export const experimentConfigsMap: Record<ExperimentKey, ExperimentConfig> = {
 	MORPH_FAST_APPLY: { enabled: false }, // kilocode_change
 	AUTOCOMPLETE: { enabled: false }, // kilocode_change
-	UI_IMPROVEMENTS: { enabled: false }, // kilocode_change
+	UI_IMPROVEMENTS: { enabled: true }, // kilocode_change
 	UI_ANIMATION_DOTS: { enabled: false }, // kilocode_change
 	UI_DYNAMIC_WORDS: { enabled: false }, // kilocode_change
 	EXECUTION_VISIBILITY: { enabled: false }, // kilocode_change

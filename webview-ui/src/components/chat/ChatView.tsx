@@ -44,7 +44,7 @@ import { useAutoApprovalToggles } from "@src/hooks/useAutoApprovalToggles"
 
 import TelemetryBanner from "../common/TelemetryBanner" // kilocode_change: deactivated for now
 // import VersionIndicator from "../common/VersionIndicator" // kilocode_change: unused
-import { useTaskSearch } from "../history/useTaskSearch"
+// import { useTaskSearch } from "../history/useTaskSearch" // kilocode_change: unused
 import HistoryPreview from "../history/HistoryPreview"
 import { MinimalTasksView } from "../history/MinimalTasksView" // kilocode_change
 import { ExecutionStatusPanel } from "./ExecutionStatusPanel" // kilocode_change
@@ -126,6 +126,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 		historyPreviewCollapsed, // Added historyPreviewCollapsed
 		soundEnabled,
 		soundVolume,
+		experiments, // kilocode_change
 		// cloudIsAuthenticated, // kilocode_change
 	} = useExtensionState()
 
@@ -134,7 +135,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 		messagesRef.current = messages
 	}, [messages])
 
-	const { tasks } = useTaskSearch()
+	// const { tasks } = useTaskSearch() // kilocode_change: not needed, using taskHistory instead
 
 	// Initialize expanded state based on the persisted setting (default to expanded if undefined)
 	const [isExpanded, setIsExpanded] = useState(
@@ -1931,12 +1932,12 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 					)}
 				</>
 			) : (
-				<div className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-4 relative">
-					{/* Moved Task Bar Header Here */}
-					{tasks.length !== 0 && (
+				<div className="flex-1 min-h-0 overflow-y-auto flex flex-col relative">
+					{/* Moved Task Bar Header Here - BUILD_TEST_16:23 */}
+					{taskHistory.length > 0 && (
 						<div className="flex text-vscode-descriptionForeground w-full mx-auto px-5 pt-3">
 							<div className="flex items-center gap-1 cursor-pointer" onClick={toggleExpanded}>
-								{tasks.length < 10 && (
+								{taskHistory.length < 10 && (
 									<span className={`font-medium text-xs `}>{t("history:recentTasks")}</span>
 								)}
 								<span
@@ -1946,7 +1947,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 						</div>
 					)}
 					{/* kilocode_change start: changed the classes to support notifications */}
-					<div className="w-full h-full flex flex-col gap-4 px-3.5 transition-all duration-300">
+					<div className="w-full h-full flex flex-col px-3.5 transition-all duration-300">
 						{/* kilocode_change end */}
 						{/* Version indicator in top-right corner - only on welcome screen */}
 						{/* kilocode_change: do not show */}
@@ -1959,24 +1960,27 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 						{telemetrySetting === "unset" && <TelemetryBanner />}
 						{/* kilocode_change start: KilocodeNotifications + Layout fixes */}
 						{telemetrySetting !== "unset" && <KilocodeNotifications />}
-						<div className="flex flex-grow flex-col justify-center gap-4">
+
+						<div className="flex flex-grow flex-col">
 							{/* kilocode_change end */}
-							<p className="text-vscode-editor-foreground leading-tight font-vscode-font-family text-center text-balance max-w-[380px] mx-auto my-0">
-								<Trans
-									i18nKey="chat:about"
-									components={{
-										DocsLink: (
-											<a
-												href={buildDocLink("", "welcome")}
-												target="_blank"
-												rel="noopener noreferrer">
-												the docs
-											</a>
-										),
-									}}
-								/>
-							</p>
-							{taskHistory.length === 0 && <IdeaSuggestionsBox />} {/* kilocode_change */}
+							{/* Only show description text when minimal tasks is disabled */}
+							{!experiments?.[EXPERIMENT_IDS.MINIMAL_TASKS] && (
+								<p className="text-vscode-editor-foreground leading-tight font-vscode-font-family text-center text-balance max-w-[380px] mx-auto my-0">
+									<Trans
+										i18nKey="chat:about"
+										components={{
+											DocsLink: (
+												<a
+													href={buildDocLink("", "welcome")}
+													target="_blank"
+													rel="noopener noreferrer">
+													the docs
+												</a>
+											),
+										}}
+									/>
+								</p>
+							)}
 							{/*<div className="mb-2.5">
 								{cloudIsAuthenticated || taskHistory.length < 4 ? <RooTips /> : <RooCloudCTA />}
 							</div> kilocode_change: do not show */}
@@ -1987,8 +1991,14 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 									<MinimalTasksView items={taskHistory} />
 								) : (
 									<HistoryPreview />
-								))}{" "}
+								))}
 							{/* kilocode_change: conditional rendering based on minimal tasks experiment */}
+							{/* Add spacer to push content down only when no tasks */}
+							{taskHistory.length === 0 && (
+								<div className="flex-grow flex items-center justify-center">
+									<IdeaSuggestionsBox /> {/* kilocode_change */}
+								</div>
+							)}
 							{/* kilocode_change start: KilocodeNotifications + Layout fixes */}
 						</div>
 						{/* kilocode_change end */}

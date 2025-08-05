@@ -267,6 +267,10 @@ describe("mergeExtensionState", () => {
 				powerSteering: true,
 				autocomplete: true,
 				uiImprovements: false, // kilocode_change
+				uiAnimationDots: false, // kilocode_change
+				uiDynamicWords: false, // kilocode_change
+				executionVisibility: false, // kilocode_change
+				minimalTasks: false, // kilocode_change
 				multiFileApplyDiff: true,
 				inlineAssist: false, // kilocode_change
 				preventFocusDisruption: false,
@@ -285,6 +289,10 @@ describe("mergeExtensionState", () => {
 			powerSteering: true,
 			autocomplete: true,
 			uiImprovements: false, // kilocode_change
+			uiAnimationDots: false, // kilocode_change
+			uiDynamicWords: false, // kilocode_change
+			executionVisibility: false, // kilocode_change
+			minimalTasks: false, // kilocode_change
 			multiFileApplyDiff: true,
 			inlineAssist: false, // kilocode_change
 			preventFocusDisruption: false,

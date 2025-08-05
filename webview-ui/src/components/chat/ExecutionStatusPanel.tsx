@@ -2,9 +2,6 @@
 import React, { useState, useEffect } from "react"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { useTranslation } from "react-i18next"
-import { useExtensionState } from "@src/context/ExtensionStateContext"
-import { EXPERIMENT_IDS } from "@roo/experiments"
-import { StreamingText } from "./ChatRow"
 import type { ClineMessage } from "@roo-code/types"
 import { StandardTooltip } from "../ui"
 
@@ -26,10 +23,7 @@ export const ExecutionStatusPanel: React.FC<ExecutionStatusPanelProps> = ({
 	hasTask = false,
 }) => {
 	const { t } = useTranslation()
-	const { experiments } = useExtensionState()
 	const [currentAction, setCurrentAction] = useState<string>("")
-
-	const uiImprovementsEnabled = experiments?.[EXPERIMENT_IDS.UI_IMPROVEMENTS] || false
 
 	// Determine the current action based on messages
 	useEffect(() => {
@@ -91,13 +85,9 @@ export const ExecutionStatusPanel: React.FC<ExecutionStatusPanelProps> = ({
 					{isPaused ? (
 						<span className="text-vscode-foreground font-medium">{t("chat:paused", "Paused")}</span>
 					) : isStreaming ? (
-						uiImprovementsEnabled ? (
-							<StreamingText text={currentAction || t("chat:apiRequest.streaming")} />
-						) : (
-							<span className="text-vscode-foreground font-medium">
-								{currentAction || t("chat:apiRequest.streaming")}
-							</span>
-						)
+						<span className="text-vscode-foreground font-medium">
+							{currentAction || t("chat:apiRequest.streaming")}
+						</span>
 					) : (
 						<span className="text-vscode-foreground font-medium">{t("chat:ready", "Ready to resume")}</span>
 					)}

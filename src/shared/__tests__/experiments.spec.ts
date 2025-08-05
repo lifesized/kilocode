@@ -28,7 +28,7 @@ describe("experiments", () => {
 		it("is configured correctly", () => {
 			expect(EXPERIMENT_IDS.UI_IMPROVEMENTS).toBe("uiImprovements")
 			expect(experimentConfigsMap.UI_IMPROVEMENTS).toMatchObject({
-				enabled: false,
+				enabled: true,
 			})
 		})
 	})

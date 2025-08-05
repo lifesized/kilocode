@@ -8,11 +8,6 @@ interface MinimalTasksViewProps {
 	items: HistoryItem[]
 }
 
-interface GroupedTask {
-	task: HistoryItem
-	timeGroup: string
-}
-
 const getTimeGroup = (timestamp: number): string => {
 	const now = Date.now()
 	const diff = now - timestamp
@@ -68,7 +63,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items }) => 
 	}
 
 	return (
-		<div className="flex flex-col gap-4 py-4">
+		<div className="flex flex-col gap-4">
 			{groupedTasks.groupOrder.map((timeGroup) => (
 				<div key={timeGroup} className="flex flex-col gap-2">
 					<h3 className="text-xs font-medium text-vscode-descriptionForeground uppercase tracking-wider">
