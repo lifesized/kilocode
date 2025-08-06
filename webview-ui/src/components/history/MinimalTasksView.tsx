@@ -68,8 +68,8 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 	// When collapsed, show only the first time group header with eye button
 	if (!isExpanded && groupedTasks.groupOrder.length > 0) {
 		return (
-			<div className="flex items-center justify-between py-2">
-				<h3 className="text-xs font-medium text-vscode-descriptionForeground uppercase tracking-wider">
+			<div className="flex items-center justify-between py-2 h-5">
+				<h3 className="text-sm font-medium text-vscode-descriptionForeground uppercase tracking-wider">
 					{groupedTasks.groupOrder[0]}
 				</h3>
 				{onToggleExpanded && (
@@ -89,7 +89,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 		<div className="flex flex-col w-full">
 			{groupedTasks.groupOrder.map((timeGroup, index) => (
 				<div key={timeGroup} className="mb-1">
-					<div className="flex items-center justify-between mb-0">
+					<div className="flex items-center justify-between mb-3 h-5">
 						<h2 className="text-sm font-medium text-vscode-descriptionForeground uppercase tracking-wider">
 							{timeGroup}
 						</h2>
@@ -108,7 +108,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 							<div
 								key={task.id}
 								onClick={() => handleTaskClick(task.id)}
-								className="flex items-center justify-between px-1 cursor-pointer hover:bg-vscode-list-hoverBackground rounded-sm transition-all group leading-none h-6">
+								className="flex items-center justify-between cursor-pointer hover:bg-vscode-list-hoverBackground rounded-sm transition-all group leading-none h-5">
 								<div className="flex-1 min-w-0 mr-4">
 									<p className="text-xs text-vscode-foreground truncate group-hover:text-vscode-list-activeSelectionForeground leading-tight">
 										{task.task}
