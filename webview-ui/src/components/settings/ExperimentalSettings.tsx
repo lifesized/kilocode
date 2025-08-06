@@ -6,7 +6,7 @@ import type {
 	ProviderSettings, // kilocode_change
 } from "@roo-code/types"
 
-import { EXPERIMENT_IDS, experimentConfigsMap } from "@roo/experiments"
+import { EXPERIMENT_IDS, experimentConfigsMap } from "../../core/config/experiments"
 
 import { useAppTranslation } from "@src/i18n/TranslationContext"
 import { cn } from "@src/lib/utils"

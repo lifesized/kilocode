@@ -1933,19 +1933,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 				</>
 			) : (
 				<div className="flex-1 min-h-0 overflow-y-auto flex flex-col relative">
-					{/* Moved Task Bar Header Here - BUILD_TEST_16:23 */}
-					{taskHistory.length > 0 && (
-						<div className="flex text-vscode-descriptionForeground w-full mx-auto px-5 pt-3">
-							<div className="flex items-center gap-1 cursor-pointer" onClick={toggleExpanded}>
-								{taskHistory.length < 10 && (
-									<span className={`font-medium text-xs `}>{t("history:recentTasks")}</span>
-								)}
-								<span
-									className={`codicon  ${isExpanded ? "codicon-eye" : "codicon-eye-closed"} scale-90`}
-								/>
-							</div>
-						</div>
-					)}
+					{/* Eye button moved to be inline with task groups */}
 					{/* kilocode_change start: changed the classes to support notifications */}
 					<div className="w-full h-full flex flex-col px-3.5 transition-all duration-300">
 						{/* kilocode_change end */}
@@ -1984,11 +1972,14 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 							{/*<div className="mb-2.5">
 								{cloudIsAuthenticated || taskHistory.length < 4 ? <RooTips /> : <RooCloudCTA />}
 							</div> kilocode_change: do not show */}
-							{/* Show the task history preview if expanded and tasks exist */}
+							{/* Show the task history preview if tasks exist */}
 							{taskHistory.length > 0 &&
-								isExpanded &&
 								(experiments?.[EXPERIMENT_IDS.MINIMAL_TASKS] ? (
-									<MinimalTasksView items={taskHistory} />
+									<MinimalTasksView
+										items={taskHistory}
+										isExpanded={isExpanded}
+										onToggleExpanded={toggleExpanded}
+									/>
 								) : (
 									<HistoryPreview />
 								))}

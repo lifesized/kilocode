@@ -6,6 +6,8 @@ import { vscode } from "@/utils/vscode"
 
 interface MinimalTasksViewProps {
 	items: HistoryItem[]
+	isExpanded?: boolean
+	onToggleExpanded?: () => void
 }
 
 const getTimeGroup = (timestamp: number): string => {
@@ -13,13 +15,13 @@ const getTimeGroup = (timestamp: number): string => {
 	const diff = now - timestamp
 	const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
-	if (days === 0) return "Today"
-	if (days === 1) return "Yesterday"
-	if (days <= 7) return "This week"
-	if (days <= 14) return "Last week"
-	if (days <= 30) return "This month"
-	if (days <= 60) return "Last month"
-	return formatDistanceToNow(new Date(timestamp), { addSuffix: true })
+	if (days === 0) return "TODAY"
+	if (days === 1) return "YESTERDAY"
+	if (days <= 7) return "THIS WEEK"
+	if (days <= 14) return "LAST WEEK"
+	if (days <= 30) return "THIS MONTH"
+	if (days <= 60) return "LAST MONTH"
+	return formatDistanceToNow(new Date(timestamp), { addSuffix: true }).toUpperCase()
 }
 
 const formatTokenUsage = (tokensIn: number, tokensOut: number): string => {
@@ -29,13 +31,13 @@ const formatTokenUsage = (tokensIn: number, tokensOut: number): string => {
 	return `${totalK}k/200k`
 }
 
-export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items }) => {
+export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExpanded = true, onToggleExpanded }) => {
 	const handleTaskClick = (taskId: string) => {
 		vscode.postMessage({ type: "showTaskWithId", text: taskId })
 	}
 
 	const groupedTasks = useMemo(() => {
-		// Sort by newest first and take only the first 5
+		// Sort by newest first and take only the first 5 for better coverage
 		const sortedItems = [...items].sort((a, b) => b.ts - a.ts).slice(0, 5)
 
 		// Group tasks by time period
@@ -54,6 +56,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items }) => 
 		return { groups, groupOrder }
 	}, [items])
 
+	// No tasks message when no tasks exist
 	if (items.length === 0) {
 		return (
 			<div className="text-center text-vscode-descriptionForeground py-8">
@@ -62,24 +65,57 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items }) => 
 		)
 	}
 
+	// When collapsed, show only the first time group header with eye button
+	if (!isExpanded && groupedTasks.groupOrder.length > 0) {
+		return (
+			<div className="flex items-center justify-between py-2">
+				<h3 className="text-xs font-medium text-vscode-descriptionForeground uppercase tracking-wider">
+					{groupedTasks.groupOrder[0]}
+				</h3>
+				{onToggleExpanded && (
+					<button
+						onClick={onToggleExpanded}
+						className="flex items-center cursor-pointer hover:text-vscode-foreground transition-colors"
+						title="Show tasks">
+						<span className="codicon codicon-eye-closed scale-90" />
+					</button>
+				)}
+			</div>
+		)
+	}
+
+	// When expanded, show all groups with tasks in minimal design
 	return (
-		<div className="flex flex-col gap-4">
-			{groupedTasks.groupOrder.map((timeGroup) => (
-				<div key={timeGroup} className="flex flex-col gap-2">
-					<h3 className="text-xs font-medium text-vscode-descriptionForeground uppercase tracking-wider">
-						{timeGroup}
-					</h3>
-					<div className="flex flex-col gap-1">
+		<div className="flex flex-col w-full">
+			{groupedTasks.groupOrder.map((timeGroup, index) => (
+				<div key={timeGroup} className="mb-6">
+					<div className="flex items-center justify-between mb-3">
+						<h2 className="text-sm font-medium text-vscode-descriptionForeground uppercase tracking-wider">
+							{timeGroup}
+						</h2>
+						{/* Show eye button only on the first group */}
+						{index === 0 && onToggleExpanded && (
+							<button
+								onClick={onToggleExpanded}
+								className="flex items-center cursor-pointer hover:text-vscode-foreground transition-colors"
+								title="Hide tasks">
+								<span className="codicon codicon-eye scale-90" />
+							</button>
+						)}
+					</div>
+					<div className="space-y-0">
 						{groupedTasks.groups[timeGroup].map((task) => (
 							<div
 								key={task.id}
 								onClick={() => handleTaskClick(task.id)}
-								className="flex items-center justify-between h-4 px-3 py-2 rounded-sm bg-vscode-sideBar-background hover:bg-vscode-list-hoverBackground active:bg-vscode-list-activeSelectionBackground cursor-pointer transition-all duration-200 border border-transparent hover:border-vscode-focusBorder">
-								<div className="flex-1 min-w-0 mr-3">
-									<p className="text-sm text-vscode-foreground truncate">{task.task}</p>
+								className="flex items-center justify-between px-1 cursor-pointer border border-transparent hover:border-gray-600 rounded-sm transition-all group leading-none">
+								<div className="flex-1 min-w-0 mr-4">
+									<p className="text-xs text-vscode-foreground truncate group-hover:text-vscode-list-activeSelectionForeground leading-tight">
+										{task.task}
+									</p>
 								</div>
 								<div className="flex-shrink-0">
-									<span className="text-xs text-vscode-descriptionForeground font-mono">
+									<span className="text-xs text-vscode-descriptionForeground font-mono leading-tight">
 										{formatTokenUsage(task.tokensIn || 0, task.tokensOut || 0)}
 									</span>
 								</div>
