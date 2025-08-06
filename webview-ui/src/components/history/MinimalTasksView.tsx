@@ -88,8 +88,8 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 	return (
 		<div className="flex flex-col w-full">
 			{groupedTasks.groupOrder.map((timeGroup, index) => (
-				<div key={timeGroup} className="mb-6">
-					<div className="flex items-center justify-between mb-3">
+				<div key={timeGroup} className="mb-1">
+					<div className="flex items-center justify-between mb-0">
 						<h2 className="text-sm font-medium text-vscode-descriptionForeground uppercase tracking-wider">
 							{timeGroup}
 						</h2>
@@ -108,7 +108,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 							<div
 								key={task.id}
 								onClick={() => handleTaskClick(task.id)}
-								className="flex items-center justify-between px-1 cursor-pointer border border-transparent hover:border-gray-600 rounded-sm transition-all group leading-none">
+								className="flex items-center justify-between px-1 cursor-pointer hover:bg-vscode-list-hoverBackground rounded-sm transition-all group leading-none h-6">
 								<div className="flex-1 min-w-0 mr-4">
 									<p className="text-xs text-vscode-foreground truncate group-hover:text-vscode-list-activeSelectionForeground leading-tight">
 										{task.task}
