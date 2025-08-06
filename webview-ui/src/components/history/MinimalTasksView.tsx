@@ -69,13 +69,13 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 	if (!isExpanded && groupedTasks.groupOrder.length > 0) {
 		return (
 			<div className="flex items-center justify-between py-2 h-5">
-				<h3 className="text-sm font-medium text-vscode-descriptionForeground uppercase tracking-wider">
+				<h3 className="text-sm ml-1  font-medium text-vscode-descriptionForeground uppercase tracking-wider">
 					{groupedTasks.groupOrder[0]}
 				</h3>
 				{onToggleExpanded && (
 					<button
 						onClick={onToggleExpanded}
-						className="flex items-center cursor-pointer hover:text-vscode-foreground transition-colors"
+						className="flex items-center  cursor-pointer hover:text-vscode-foreground transition-colors"
 						title="Show tasks">
 						<span className="codicon codicon-eye-closed scale-90" />
 					</button>
@@ -89,15 +89,15 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 		<div className="flex flex-col w-full">
 			{groupedTasks.groupOrder.map((timeGroup, index) => (
 				<div key={timeGroup} className="mb-1">
-					<div className="flex items-center justify-between mb-3 h-5">
-						<h2 className="text-sm font-medium text-vscode-descriptionForeground uppercase tracking-wider">
+					<div className="flex items-center justify-between mb-1 h-4">
+						<h2 className="text-sm font-medium ml-1 text-vscode-descriptionForeground uppercase tracking-wider">
 							{timeGroup}
 						</h2>
 						{/* Show eye button only on the first group */}
 						{index === 0 && onToggleExpanded && (
 							<button
 								onClick={onToggleExpanded}
-								className="flex items-center cursor-pointer hover:text-vscode-foreground transition-colors"
+								className="flex items-center cursor-pointer  hover:text-vscode-foreground transition-colors"
 								title="Hide tasks">
 								<span className="codicon codicon-eye scale-90" />
 							</button>
@@ -108,9 +108,9 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 							<div
 								key={task.id}
 								onClick={() => handleTaskClick(task.id)}
-								className="flex items-center justify-between cursor-pointer hover:bg-vscode-list-hoverBackground rounded-sm transition-all group leading-none h-5">
+								className="flex items-center justify-between  cursor-pointer hover:bg-vscode-list-hoverBackground rounded-sm transition-all group leading-none h-5">
 								<div className="flex-1 min-w-0 mr-4">
-									<p className="text-xs text-vscode-foreground truncate group-hover:text-vscode-list-activeSelectionForeground leading-tight">
+									<p className="text-sm text-vscode-foreground truncate  group-hover:text-vscode-list-activeSelectionForeground  ml-1 mr-3 leading-tight">
 										{task.task}
 									</p>
 								</div>
