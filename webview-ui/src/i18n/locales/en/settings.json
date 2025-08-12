@@ -731,12 +731,12 @@
 			"description": "When enabled, provides an updated user experience for different panels, states and actions within the application."
 		},
 		"UI_ANIMATION_DOTS": {
-			"name": "Use animated dots instead of circular animation",
-			"description": "When enabled, replaces the circular loading animation with animated dots after the 'Generating' text."
+			"name": "Use animated dots instead of circular animation (future feature)",
+			"description": "When enabled, replaces the circular loading animation with animated dots after the 'Generating' text. This feature is currently in development."
 		},
 		"UI_DYNAMIC_WORDS": {
-			"name": "Use dynamic generating words",
-			"description": "When enabled, uses different words for 'Generating' (like 'Creating', 'Thinking', 'Processing') to keep the experience dynamic and interesting."
+			"name": "Use dynamic generating words (future feature)",
+			"description": "When enabled, uses different words for 'Generating' (like 'Creating', 'Thinking', 'Processing') to keep the experience dynamic and interesting. This feature is currently in development."
 		},
 		"EXECUTION_VISIBILITY": {
 			"name": "Show execution status panel",
