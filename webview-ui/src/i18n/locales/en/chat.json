@@ -147,7 +147,7 @@
 	"apiRequest": {
 		"title": "Thinking request",
 		"failed": "API Request Failed",
-		"streaming": "Generating...",
+		"streaming": "Generating",
 		"cancelled": "Request Cancelled",
 		"streamingFailed": "API Streaming Failed"
 	},

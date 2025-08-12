@@ -732,7 +732,7 @@
 		},
 		"UI_ANIMATION_DOTS": {
 			"name": "Use animated dots instead of circular animation",
-			"description": "When enabled, replaces the circular loading animation with animated dots ('.', '..', '...') after the 'Generating' text."
+			"description": "When enabled, replaces the circular loading animation with animated dots after the 'Generating' text."
 		},
 		"UI_DYNAMIC_WORDS": {
 			"name": "Use dynamic generating words",

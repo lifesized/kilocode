@@ -20,6 +20,7 @@ import { findMatchingResourceOrTemplate } from "@src/utils/mcp"
 import { vscode } from "@src/utils/vscode"
 import { removeLeadingNonAlphanumeric } from "@src/utils/removeLeadingNonAlphanumeric"
 import { getLanguageFromPath } from "@src/utils/getLanguageFromPath"
+import { EXPERIMENT_IDS } from "@src/core/config/experiments"
 // import { Button } from "@src/components/ui" // kilocode_change
 
 // import ChatTextArea from "./ChatTextArea" // kilocode_change
@@ -41,6 +42,7 @@ import { LowCreditWarning } from "../kilocode/chat/LowCreditWarning" // kilocode
 import { BatchFilePermission } from "./BatchFilePermission"
 import { BatchDiffApproval } from "./BatchDiffApproval"
 import { ProgressIndicator } from "./ProgressIndicator"
+import { AnimatedDots } from "./AnimatedDots"
 import { Markdown } from "./Markdown"
 import { CommandExecution } from "./CommandExecution"
 import { CommandExecutionError } from "./CommandExecutionError"
@@ -132,7 +134,7 @@ export const ChatRowContent = ({
 	editable,
 }: ChatRowContentProps) => {
 	const { t } = useTranslation()
-	const { mcpServers, alwaysAllowMcp, currentCheckpoint } = useExtensionState()
+	const { mcpServers, alwaysAllowMcp, currentCheckpoint, experiments } = useExtensionState()
 	const [reasoningCollapsed, setReasoningCollapsed] = useState(true)
 	const [isDiffErrorExpanded, setIsDiffErrorExpanded] = useState(false)
 	const [showCopySuccess, setShowCopySuccess] = useState(false)
@@ -298,6 +300,9 @@ export const ChatRowContent = ({
 						/>
 					</div>
 				)
+
+				const useAnimatedDots = experiments?.[EXPERIMENT_IDS.UI_ANIMATION_DOTS] ?? false
+
 				return [
 					apiReqCancelReason !== null && apiReqCancelReason !== undefined ? (
 						apiReqCancelReason === "user_cancelled" ? (
@@ -309,6 +314,9 @@ export const ChatRowContent = ({
 						getIconSpan("check", successColor)
 					) : apiRequestFailedMessage ? (
 						getIconSpan("error", errorColor)
+					) : useAnimatedDots ? (
+						// When using animated dots, show empty space for icon
+						<div style={{ width: 16, height: 16 }} />
 					) : (
 						<ProgressIndicator />
 					),
@@ -326,6 +334,19 @@ export const ChatRowContent = ({
 						<span style={{ color: normalColor, fontWeight: "bold" }}>{t("chat:apiRequest.title")}</span>
 					) : apiRequestFailedMessage ? (
 						<span style={{ color: errorColor, fontWeight: "bold" }}>{t("chat:apiRequest.failed")}</span>
+					) : useAnimatedDots ? (
+						// When using animated dots, show text with dots inline
+						<span
+							style={{
+								color: normalColor,
+								fontWeight: "bold",
+								display: "inline-flex",
+								alignItems: "center",
+								gap: "4px",
+							}}>
+							{t("chat:apiRequest.streaming")}
+							<AnimatedDots />
+						</span>
 					) : (
 						<span style={{ color: normalColor, fontWeight: "bold" }}>{t("chat:apiRequest.streaming")}</span>
 					),

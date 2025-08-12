@@ -4,6 +4,9 @@ import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { useTranslation } from "react-i18next"
 import type { ClineMessage } from "@roo-code/types"
 import { StandardTooltip } from "../ui"
+import { useExtensionState } from "@src/context/ExtensionStateContext"
+import { EXPERIMENT_IDS } from "@src/core/config/experiments"
+import { AnimatedDots } from "./AnimatedDots"
 
 interface ExecutionStatusPanelProps {
 	isStreaming: boolean
@@ -23,7 +26,9 @@ export const ExecutionStatusPanel: React.FC<ExecutionStatusPanelProps> = ({
 	hasTask = false,
 }) => {
 	const { t } = useTranslation()
+	const { experiments } = useExtensionState()
 	const [currentAction, setCurrentAction] = useState<string>("")
+	const useAnimatedDots = experiments?.[EXPERIMENT_IDS.UI_ANIMATION_DOTS] ?? false
 
 	// Determine the current action based on messages
 	useEffect(() => {
@@ -80,13 +85,14 @@ export const ExecutionStatusPanel: React.FC<ExecutionStatusPanelProps> = ({
 	return (
 		<div className="flex items-center justify-between px-4 py-2 bg-vscode-editor-background border-b border-vscode-panel-border">
 			<div className="flex items-center gap-3">
-				{/* Status text with gradient animation if enabled */}
-				<div className="flex items-center">
+				{/* Status text with dots directly after */}
+				<div className="flex items-center gap-1">
 					{isPaused ? (
 						<span className="text-vscode-foreground font-medium">{t("chat:paused", "Paused")}</span>
 					) : isStreaming ? (
-						<span className="text-vscode-foreground font-medium">
+						<span className="text-vscode-foreground font-medium inline-flex items-center gap-1">
 							{currentAction || t("chat:apiRequest.streaming")}
+							{useAnimatedDots && <AnimatedDots />}
 						</span>
 					) : (
 						<span className="text-vscode-foreground font-medium">{t("chat:ready", "Ready to resume")}</span>
@@ -97,7 +103,7 @@ export const ExecutionStatusPanel: React.FC<ExecutionStatusPanelProps> = ({
 				{currentTool && <span className="text-vscode-descriptionForeground text-sm">{currentTool}</span>}
 			</div>
 
-			{/* Control button - single toggle between play/stop */}
+			{/* Control button */}
 			<div className="flex items-center">
 				{onToggle && (
 					<StandardTooltip

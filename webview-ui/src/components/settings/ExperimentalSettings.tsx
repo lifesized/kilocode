@@ -113,13 +113,20 @@ export const ExperimentalSettings = ({
 											if (!enabled) {
 												setExperimentEnabled(EXPERIMENT_IDS.UI_ANIMATION_DOTS, false)
 												setExperimentEnabled(EXPERIMENT_IDS.UI_DYNAMIC_WORDS, false)
-												setExperimentEnabled(EXPERIMENT_IDS.EXECUTION_VISIBILITY, false)
 												setExperimentEnabled(EXPERIMENT_IDS.MINIMAL_TASKS, false)
 											}
 										}}
 									/>
 									{uiImprovementsEnabled && (
 										<div className="ml-6 mt-2 space-y-2 border-l-2 border-vscode-sideBar-background pl-4">
+											<ExperimentalFeature
+												key="MINIMAL_TASKS"
+												experimentKey="MINIMAL_TASKS"
+												enabled={minimalTasksEnabled}
+												onChange={(enabled) =>
+													setExperimentEnabled(EXPERIMENT_IDS.MINIMAL_TASKS, enabled)
+												}
+											/>
 											<ExperimentalFeature
 												key="UI_ANIMATION_DOTS"
 												experimentKey="UI_ANIMATION_DOTS"
@@ -134,22 +141,6 @@ export const ExperimentalSettings = ({
 												enabled={uiDynamicWordsEnabled}
 												onChange={(enabled) =>
 													setExperimentEnabled(EXPERIMENT_IDS.UI_DYNAMIC_WORDS, enabled)
-												}
-											/>
-											<ExperimentalFeature
-												key="EXECUTION_VISIBILITY"
-												experimentKey="EXECUTION_VISIBILITY"
-												enabled={executionVisibilityEnabled}
-												onChange={(enabled) =>
-													setExperimentEnabled(EXPERIMENT_IDS.EXECUTION_VISIBILITY, enabled)
-												}
-											/>
-											<ExperimentalFeature
-												key="MINIMAL_TASKS"
-												experimentKey="MINIMAL_TASKS"
-												enabled={minimalTasksEnabled}
-												onChange={(enabled) =>
-													setExperimentEnabled(EXPERIMENT_IDS.MINIMAL_TASKS, enabled)
 												}
 											/>
 										</div>
