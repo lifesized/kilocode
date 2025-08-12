@@ -744,7 +744,7 @@
 		},
 		"MINIMAL_TASKS": {
 			"name": "Minimal tasks view",
-			"description": "When enabled, displays a simplified and compact view for task interface elements."
+			"description": "When enabled, displays a compact view of recent tasks on the landing screen showing name and token usage."
 		}
 	},
 	"promptCaching": {

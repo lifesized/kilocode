@@ -100,7 +100,6 @@ export const ExperimentalSettings = ({
 							const uiImprovementsEnabled = experiments[EXPERIMENT_IDS.UI_IMPROVEMENTS] ?? false
 							const uiAnimationDotsEnabled = experiments[EXPERIMENT_IDS.UI_ANIMATION_DOTS] ?? false
 							const uiDynamicWordsEnabled = experiments[EXPERIMENT_IDS.UI_DYNAMIC_WORDS] ?? false
-							const executionVisibilityEnabled = experiments[EXPERIMENT_IDS.EXECUTION_VISIBILITY] ?? false
 							const minimalTasksEnabled = experiments[EXPERIMENT_IDS.MINIMAL_TASKS] ?? false
 							return (
 								<>

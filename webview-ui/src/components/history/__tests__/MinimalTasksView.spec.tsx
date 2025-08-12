@@ -94,8 +94,8 @@ describe("MinimalTasksView", () => {
 		const mockToggle = vi.fn()
 		render(<MinimalTasksView items={mockItems} isExpanded={false} onToggleExpanded={mockToggle} />)
 
-		// Should show only the first time group header
-		expect(screen.getByText("TODAY")).toBeInTheDocument()
+		// Should NOT show the time group header when collapsed
+		expect(screen.queryByText("TODAY")).not.toBeInTheDocument()
 
 		// Should show eye-closed icon
 		expect(screen.getByTitle("Show tasks")).toBeInTheDocument()
@@ -127,9 +127,9 @@ describe("MinimalTasksView", () => {
 		expect(mockToggle).toHaveBeenCalledTimes(1)
 	})
 
-	it("limits tasks to 10 items and sorts by newest first", () => {
-		// Create 15 mock items
-		const manyItems: HistoryItem[] = Array.from({ length: 15 }, (_, i) => ({
+	it("limits tasks to 5 items and sorts by newest first", () => {
+		// Create 10 mock items
+		const manyItems: HistoryItem[] = Array.from({ length: 10 }, (_, i) => ({
 			id: `task-${i}`,
 			number: i + 1,
 			task: `Task ${i}`,
@@ -141,13 +141,13 @@ describe("MinimalTasksView", () => {
 
 		render(<MinimalTasksView items={manyItems} />)
 
-		// Should show newest tasks (0-9)
+		// Should show newest tasks (0-4)
 		expect(screen.getByText("Task 0")).toBeInTheDocument()
-		expect(screen.getByText("Task 9")).toBeInTheDocument()
+		expect(screen.getByText("Task 4")).toBeInTheDocument()
 
-		// Should not show older tasks (10+)
-		expect(screen.queryByText("Task 10")).not.toBeInTheDocument()
-		expect(screen.queryByText("Task 14")).not.toBeInTheDocument()
+		// Should not show older tasks (5+)
+		expect(screen.queryByText("Task 5")).not.toBeInTheDocument()
+		expect(screen.queryByText("Task 9")).not.toBeInTheDocument()
 	})
 
 	it("groups tasks correctly by time periods", () => {

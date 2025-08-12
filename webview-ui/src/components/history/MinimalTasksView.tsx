@@ -65,17 +65,14 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 		)
 	}
 
-	// When collapsed, show only the first time group header with eye button
+	// When collapsed, show only the eye button without time title
 	if (!isExpanded && groupedTasks.groupOrder.length > 0) {
 		return (
-			<div className="flex items-center justify-between py-2 h-5">
-				<h3 className="text-sm ml-1  font-medium text-vscode-descriptionForeground uppercase tracking-wider">
-					{groupedTasks.groupOrder[0]}
-				</h3>
+			<div className="flex items-center justify-end py-2 h-4">
 				{onToggleExpanded && (
 					<button
 						onClick={onToggleExpanded}
-						className="flex items-center  cursor-pointer hover:text-vscode-foreground transition-colors"
+						className="flex items-center cursor-pointer hover:text-vscode-foreground transition-colors"
 						title="Show tasks">
 						<span className="codicon codicon-eye-closed scale-90" />
 					</button>
