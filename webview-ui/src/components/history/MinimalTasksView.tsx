@@ -87,7 +87,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 			{groupedTasks.groupOrder.map((timeGroup, index) => (
 				<div key={timeGroup} className="mb-1">
 					<div className="flex items-center justify-between mb-1 h-4">
-						<h2 className="text-sm font-medium ml-1 text-vscode-descriptionForeground uppercase tracking-wider">
+						<h2 className="text-xs font-medium ml-1 text-vscode-descriptionForeground uppercase tracking-wider">
 							{timeGroup}
 						</h2>
 						{/* Show eye button only on the first group */}
@@ -107,7 +107,7 @@ export const MinimalTasksView: React.FC<MinimalTasksViewProps> = ({ items, isExp
 								onClick={() => handleTaskClick(task.id)}
 								className="flex items-center justify-between  cursor-pointer hover:bg-vscode-list-hoverBackground rounded-sm transition-all group leading-none h-5">
 								<div className="flex-1 min-w-0 mr-4">
-									<p className="text-sm text-vscode-foreground truncate  group-hover:text-vscode-list-activeSelectionForeground  ml-1 mr-3 leading-tight">
+									<p className="text-sm text-vscode-foreground truncate group-hover:text-vscode-list-hoverForeground ml-1 mr-3 leading-tight">
 										{task.task}
 									</p>
 								</div>

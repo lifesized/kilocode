@@ -744,7 +744,7 @@
 		},
 		"MINIMAL_TASKS": {
 			"name": "Minimal tasks view",
-			"description": "When enabled, displays a compact view of recent tasks on the landing screen showing name and token usage."
+			"description": "When enabled, displays a compact view of recent 5 tasks on the landing screen showing name and token usage."
 		}
 	},
 	"promptCaching": {
